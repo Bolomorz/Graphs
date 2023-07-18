@@ -1,16 +1,47 @@
+/**
+ * vertex of graph
+ */
 class vertex{
+
+    /**
+     * create vertex of graph.
+     * @param {string} name unique name of vertex
+     * @param {int} posx x position on canvas
+     * @param {int} posy y position on canvas
+     */
     constructor(name, posx, posy){
+        /**
+         * unique name of vertex
+         */
         this.name = name;
+        /**
+         * list of adjacents (targets of edges from vertex) of vertex
+         */
         this.adjacents = [];
+        /**
+         * x position on canvas of vertex
+         */
         this.x = posx;
+        /**
+         * y position on canvas of vertex
+         */
         this.y = posy;
     }
 
+    /**
+     * add adjacent vertex of vertex to adjacentlist.
+     * edge this -> adjacent.
+     * @param {vertex} adjacent end vertex of edge: this -> adjacent
+     */
     AddNewAdjacent(adjacent)
     {
         this.adjacents.push(adjacent);
     }
 	
+    /**
+     * remove adjacent from adjacentlist.
+     * @param {vertex} adjacent vertex to remove from adjacentlist
+     */
 	RemoveAdjacent(adjacent)
 	{
 		var index = -1;
@@ -30,29 +61,79 @@ class vertex{
 	}
 }
 
+/**
+ * edge of graph
+ */
 class edge{
+
+    /**
+     * create edge of graph.
+     * @param {vertex} v1 source vertex of edge
+     * @param {vertex} v2 target vertex of edge
+     * @param {int} val weighting of edge
+     */
     constructor(v1, v2, val){
+        /**
+         * source vertex of edge
+         */
         this.vertex1 = v1;
+        /**
+         * target vertex of edge
+         */
         this.vertex2 = v2;
+        /**
+         * weighting of edge
+         */
         this.value = val;
+        /**
+         * unique name of edge
+         */
         this.name = v1.name + "->" + v2.name;
+        /**
+         * x position on canvas of edge
+         */
 		this.x = (v2.x + v1.x) / 2;
+        /**
+         * y position on canvas of edge
+         */
 		this.y = (v2.y + v1.y) / 2;
     }
 }
 
-class graph{                                                                                                                                                                                                                                                                                                                          
+/**
+ * graph displayed on canvas
+ */
+class graph{ 
+    
+    /**
+     * create new graph
+     */
     constructor()
     {
+        /**
+         * list of vertices of graph
+         */
         this.vertices = [];
+        /**
+         * list of edges of graph
+         */
         this.edges = [];
     }
 
+    /**
+     * add new vertex to graph.
+     * @param {vertex} vertex vertex to add to verticeslist
+     */
     AddNewVertex(vertex)
     {
         this.vertices.push(vertex);
     }
 
+    /**
+     * add new edge to graph if edge doesnt exist.
+     * @param {vertex} ver1 source vertex of edge
+     * @param {vertex} ver2 target vertex of edge
+     */
     AddNewEdge(ver1, ver2)
     {
         if(!this.IsEdgeInGraph(ver1, ver2))
@@ -62,6 +143,11 @@ class graph{
         }
     }
 
+    /**
+     * test if edge with name already exists in graph.
+     * @param {string} name 
+     * @returns boolean
+     */
     IsEdgeInGraphByName(name)
     {
         for(let edg of this.edges)
@@ -74,6 +160,12 @@ class graph{
         return false;
     }
 
+    /**
+     * test if edge with vertices ver1, ver2 already exists in graph.
+     * @param {vertex} ver1 source vertex of edge
+     * @param {vertex} ver2 target vertex of edge
+     * @returns boolean
+     */
     IsEdgeInGraph(ver1, ver2)
     {
         for(let edg of this.edges)
@@ -86,6 +178,11 @@ class graph{
         return false;
     }
 
+    /**
+     * test if vertex with name already exists in graph.
+     * @param {string} name 
+     * @returns boolean
+     */
     IsVertexInGraph(name)
     {
         for(let ver of this.vertices)
@@ -98,6 +195,11 @@ class graph{
         return false;
     }
 
+    /**
+     * find vertex with name in graph.
+     * @param {string} name name of vertex
+     * @returns vertex. returns null if not found
+     */
     FindVertexByName(name)
     {
         for(let ver of this.vertices)
@@ -110,6 +212,11 @@ class graph{
 		return null;
     }
 
+    /**
+     * find index of vertex in verticeslist.
+     * @param {vertex} ver vertex to find
+     * @returns index of vertex. return -1 if not found
+     */
     IndexOfVertex(ver)
     {
         for(let i = 0; i < this.vertices.length; i++)
@@ -122,6 +229,11 @@ class graph{
         return -1;
     }
 
+    /**
+     * find index of edge in edgeslist.
+     * @param {edge} edg edge to find
+     * @returns index of edge. return -1 if not found
+     */
     IndexOfEdge(edg)
     {
         for(let i = 0; i < this.edges.length; i++)
@@ -134,6 +246,10 @@ class graph{
         return -1;
     }
 
+    /**
+     * remove edge from edgeslist if edge exists in graph.
+     * @param {edge} edg edge to remove
+     */
     RemoveEdge(edg)
     {
         var index = this.IndexOfEdge(edg);
@@ -144,6 +260,11 @@ class graph{
         }
     }
 
+    /**
+     * remove vertex from verticeslist if vertex exists in graph.
+     * remove edges from verticeslist if vertex is source or target of edge.
+     * @param {vertex} ver vertex to remove
+     */
     RemoveVertex(ver)
     {
         for(let edg of this.edges)
@@ -161,21 +282,58 @@ class graph{
     }
 }
 
+/**
+ * position on canvas
+ */
 class pos{
+
+    /**
+     * create new position
+     */
     constructor()
     {
+        /**
+         * x position on canvas
+         */
         this.x = 0;
+        /**
+         * y position on canvas
+         */
         this.y = 0;
     }
 }
 
+/**
+ * dijkstra class to calculate shortest paths from startvertex with dijkstra algorithm
+ */
 class dijkstra{
+
+    /**
+     * create new dijkstra class
+     * @param {graph} graph graph 
+     * @param {vertex} startvertex source vertex
+     */
 	constructor(graph, startvertex)
 	{
-		this.distance = [];
+		/**
+         * list of distance from startvertex to each vertex
+         */
+        this.distance = [];
+        /**
+         * list of predecessor of each vertex
+         */
 		this.predecessor = [];
+        /**
+         * list of vertices in graph
+         */
 		this.vertices = [];
+        /**
+         * list of vertices in graph not calculated yet
+         */
 		this.Q = [];
+        /**
+         * list of shortestpaths from startvertex to each vertex
+         */
 		this.shortestpaths = [];
 		this.Init(graph, startvertex);
 		this.DijkstraCalculation(graph, startvertex);
@@ -185,6 +343,11 @@ class dijkstra{
 		}
 	}
 	
+    /**
+     * calculate shortest path to target vertex
+     * @param {vertex} endvertex target vertex
+     * @returns shortest path as list of vertices
+     */
 	ShortestPath(endvertex)
 	{
 		var path = [];
@@ -200,6 +363,12 @@ class dijkstra{
 		return path;
 	}
 	
+    /**
+     * calculate each distance for each vertex in Q 
+     * @param {graph} graph graph to calculate
+     * @param {vertex} startvertex source vertex
+     * @returns 0
+     */
 	DijkstraCalculation(graph, startvertex)
 	{
 		while(this.Q.length > 0)
@@ -221,6 +390,12 @@ class dijkstra{
 		}
 	}
 	
+    /**
+     * calculate new distance from source vertex to target vertex
+     * @param {vertex} u source vertex
+     * @param {vertex} v target vertex
+     * @param {graph} graph graph with vertices
+     */
 	DistanceUpdate(u, v, graph)
 	{
 		var alt = this.distance[this.FindIndexOfVertex(u)] + this.FindWeightingOfEdge(u, v, graph);
@@ -231,6 +406,13 @@ class dijkstra{
 		}
 	}
 	
+    /**
+     * find weighting of edge u -> v in edgeslist of graph
+     * @param {vertex} u source vertex
+     * @param {vertex} v target vertex
+     * @param {graph} graph graph with vertices
+     * @returns weighting of edge. return -1 if not found
+     */
 	FindWeightingOfEdge(u, v, graph)
 	{
 		for(let i in graph.edges)
@@ -243,6 +425,11 @@ class dijkstra{
 		return -1;
 	}
 	
+    /**
+     * initialize lists distance, predecessor, vertices, Q
+     * @param {graph} graph graph to calculate
+     * @param {vertex} startvertex source vertex
+     */
 	Init(graph, startvertex)
 	{
 		for(let i in graph.vertices)
@@ -261,6 +448,10 @@ class dijkstra{
 		}
 	}
 	
+    /**
+     * find index of vertex with smallest distance in Q
+     * @returns index of vertex
+     */
 	FindVertexWithSmallestDistanceInQ()
 	{
 		var dist = Number.MAX_VALUE;
@@ -279,6 +470,11 @@ class dijkstra{
 		return index;
 	}
 	
+    /**
+     * find index of vertex in vertices
+     * @param {vertex} vertex vertex to find
+     * @returns index in verticeslist. return -1 if not found
+     */
 	FindIndexOfVertex(vertex)
 	{
 		var index = 0;
@@ -293,6 +489,11 @@ class dijkstra{
 		return -1;
 	}
 	
+    /**
+     * test if vertex is in Qlist
+     * @param {vertex} vertex vertex to find
+     * @returns boolean
+     */
 	IsInQ(vertex)
 	{
 		for(let ver in this.Q)
@@ -305,6 +506,11 @@ class dijkstra{
 		return false;
 	}
 
+    /**
+     * print solution of each vertex in graph to lineslist
+     * @param {vertex} startvertex source vertex 
+     * @returns list of lines
+     */
 	Print1(startvertex)
 	{
 		var lines = [];
@@ -360,6 +566,12 @@ class dijkstra{
 		return lines;
 	}
 
+    /**
+     * print solution of endvertex to lineslist
+     * @param {vertex} startvertex source vertex
+     * @param {vertex} endvertex target vertex
+     * @returns list of lines
+     */
     Print2(startvertex, endvertex)
     {
         var lines = [];
@@ -411,32 +623,71 @@ class dijkstra{
     }
 }
 
+/**
+ * current graph which is displayed in canvas
+ */
 var current = new graph();
 
 //
 //*
 //Canvas
 
+/**
+ * canvas to display graph
+ */
 var canvas = document.getElementById("canvas");
 canvas.style.width = 1700 + 'px';
 canvas.style.height = 850 + 'px';
+/**
+ * double resolution of canvas
+ */
 canvas.width = 1700 * 2;
 canvas.height = 850 * 2;
 
+/**
+ * position of mouse in canvas
+ */
 var mouse = new pos();
 
+/**
+ * active vertex. null if no vertex active
+ */
 var activever = null;
+/**
+ * active edge. null if no edge active
+ */
 var activeedg = null;
+/**
+ * boolean if weight is active
+ */
 var activeweight = false;
 
+/**
+ * count of vertices in graph. to name new created vertices with unique names
+ */
 var count = 1;
 
+/**
+ * text displayed in inputelement on canvas
+ */
 var inputtext = "";
+/**
+ * boolean if inputelement on canvas is active
+ */
 var inputelementisactive = false;
+/**
+ * boolean if cursor in inputelement on canvas is active
+ */
 var cursoractive = false;
 
+/**
+ * interval of SwitchCursor function
+ */
 var interval = setInterval(SwitchCursor, 250);
 
+/**
+ * eventlistener for keydown event. add text to inputelement if inputelement is active. [backspace] to delete character from inputtext. [enter] to accept inputtext in inputelement.
+ */
 canvas.addEventListener("keydown",
 function(e)
 {
@@ -505,6 +756,9 @@ function(e)
 }
 );
 
+/**
+ * eventlistener for mouseclickevent. different codepath if theres is an active vertex or edge (activever, activeedg)
+ */
 canvas.addEventListener("click",
 function(e)
 {
@@ -584,6 +838,10 @@ function(e)
 }
 );
 
+/**
+ * returns vertex of current mouse position on canvas
+ * @returns vertex of mouse position on canvas. return null if no vertex on current position
+ */
 function VertexOfPos()
 {
     for(let ver of current.vertices)
@@ -596,6 +854,10 @@ function VertexOfPos()
     return null;
 }
 
+/**
+ * returns edge of current mouse position on canvas
+ * @returns edge of mouse position on canvas. return null if no edge on current position.
+ */
 function EdgeOfPos()
 {
     for(let edg of current.edges)
@@ -608,6 +870,12 @@ function EdgeOfPos()
     return null;
 }
 
+/**
+ * test if position p is in rectangle of weighting of edge e on canvas
+ * @param {pos} p position of mouse
+ * @param {edge} e edge on canvas
+ * @returns boolean
+ */
 function IsInRectangleOfWeighting(p, e)
 {
     var out = e.name + ": " + e.value;
@@ -638,6 +906,12 @@ function IsInRectangleOfWeighting(p, e)
     }
 }
 
+/**
+ * test if position p is in rectangle of edge e on canvas
+ * @param {pos} p position of mouse
+ * @param {edge} e edge on canvas
+ * @returns boolean
+ */
 function IsInRectangleOfEdge(p, e)
 {
     var out = e.name + ": " + e.value;
@@ -662,6 +936,13 @@ function IsInRectangleOfEdge(p, e)
     }
 }
 
+/**
+ * test if position p is in circle of vertex v on canvas
+ * @param {pos} p position of mouse
+ * @param {vertex} v vertex of canvas
+ * @param {int} r radius of circle
+ * @returns boolean
+ */
 function IsInCircleOfVertex(p, v, r)
 {
     var lhs = Math.pow(v.x - p.x, 2) + Math.pow(v.y - p.y, 2);
@@ -677,6 +958,10 @@ function IsInCircleOfVertex(p, v, r)
     }
 }
 
+/**
+ * write current mouse position on canvas in mouse variable
+ * @param {*} e mouse position
+ */
 function GetMousePos(e)
 {
     var rect = canvas.getBoundingClientRect();
@@ -684,6 +969,12 @@ function GetMousePos(e)
     mouse.y = (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
 }
 
+/**
+ * create new vertex and add to current graph
+ * @param {string} name name of vertex
+ * @param {int} posx x position on canvas
+ * @param {int} posy y position on canvas
+ */
 function BuildNewVertex(name, posx, posy)
 {
     var v = new vertex(name, posx, posy);
@@ -691,6 +982,11 @@ function BuildNewVertex(name, posx, posy)
     ShowGraph();
 }
 
+/**
+ * create new edge and add to current graph
+ * @param {string} name1 name of source vertex
+ * @param {string} name2 name of target vertex
+ */
 function BuildNewEdge(name1, name2)
 {
     var v1 = current.FindVertexByName(name1);
@@ -699,22 +995,35 @@ function BuildNewEdge(name1, name2)
     ShowGraph();
 }
 
+/**
+ * delete current graph. create new graph
+ */
 function Delete()
 {
     current = new graph();
     ShowGraph();
 }
 
+/**
+ * delete last character from inputtext in inputelement
+ */
 function DeleteLastFromInputElement()
 {
     inputtext = inputtext.substring(0, inputtext.length - 1);
 }
 
+/**
+ * add text to inputtext in inputelement
+ * @param {string} text text to add
+ */
 function AddTextToInputElement(text)
 {
     inputtext += text;
 }
 
+/**
+ * activate inputelement on current active edge or vertex
+ */
 function ActivateInputElement()
 {
     inputelementisactive = true;
@@ -722,6 +1031,9 @@ function ActivateInputElement()
     cursoractive = true;
 }
 
+/**
+ * make cursorcharacter inactive or active
+ */
 function SwitchCursor()
 {
     if(cursoractive)
@@ -735,8 +1047,15 @@ function SwitchCursor()
     ShowGraph();
 }
 
+/**
+ * display graph (vertices and edges) on canvas. display only if second canvas is inactive
+ * @returns 0 if second canvas is active
+ */
 function ShowGraph()
 {
+    /**
+     * skip printing to canvas if second canvas window is opened
+     */
     if(windowopened)
     {
         return 0;
@@ -747,6 +1066,9 @@ function ShowGraph()
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0,0,canvas.width, canvas.height);
 
+    /**
+     * display vertices of graph
+     */
     for(let ver of current.vertices)
     {
         if(activever != null)
@@ -791,6 +1113,9 @@ function ShowGraph()
 		}
     }
 
+    /**
+     * display edges of graph
+     */
     for(let edg of current.edges)
     {
         if(activeedg != null)
@@ -837,10 +1162,13 @@ function ShowGraph()
 		}
     }
 
+    /**
+     * display inputelement on active edge or vertex
+     */
     if(inputelementisactive)
     {
         ctx.fillStyle = "#0000FF";
-        ctx.font = "25px Consolas";
+        ctx.font = "italic 25px Consolas";
         ctx.textAlign = "center";
         if(activever != null)
         {
@@ -882,10 +1210,19 @@ function ShowGraph()
 //*
 //textcommands
 
+/**
+ * inputelement above canvas
+ */
 var headtextinput = document.getElementById("headtext");
 
+/**
+ * boolean if second canvas is active
+ */
 var windowopened = false;
 
+/**
+ * div element with second canvas and button
+ */
 var div = document.createElement("div");
 div.style.position = "absolute";
 div.style.left = "1000px";
@@ -894,8 +1231,12 @@ div.style.width = "720px";
 div.style.maxWidth = "720px";
 div.style.maxHeight = "800px";
 div.style.overflow = "scroll";
+div.style.border = "1px solid black";
 document.body.appendChild(div);
 
+/**
+ * second canvas to display solutions of calculations
+ */
 var second = document.createElement("canvas");
 second.style.position = "relative";
 second.style.left = "0px";
@@ -903,9 +1244,15 @@ second.style.top = "0px";
 second.style.width = "700px";
 second.style.border = "1px solid black"
 second.style.pointerEvents = "none";
+/**
+ * double resolution of canvas
+ */
 second.width = 1400;
 div.appendChild(second);
 
+/**
+ * button to close second canvas
+ */
 var button = document.createElement("button");
 button.style.position = "absolute";
 button.style.left = "680px";
@@ -916,6 +1263,9 @@ button.style.border = "1px solid black";
 button.innerHTML = "x";
 div.appendChild(button);
 
+/**
+ * eventlistener on button to close second canvas on click
+ */
 button.addEventListener("click", 
 function(e)
 {
@@ -923,6 +1273,9 @@ function(e)
 }
 )
 
+/**
+ * eventlistener on inputelement to accept text in inputelement on pressing [enter] while inputelement is focused
+ */
 headtextinput.addEventListener("keypress", 
 function(e)
 {
@@ -937,6 +1290,9 @@ function(e)
 
 HideSecond();
 
+/**
+ * hide second canvas, div and button
+ */
 function HideSecond()
 {
     div.setAttribute("hidden", "hidden");
@@ -945,6 +1301,9 @@ function HideSecond()
     windowopened = false;
 }
 
+/**
+ * show second canvas, div and button
+ */
 function ShowSecond()
 {
     div.removeAttribute("hidden");
@@ -953,6 +1312,9 @@ function ShowSecond()
     windowopened = true;
 }
 
+/**
+ * read string from inputelement headtextinput. issue command in string. display solution in second canvas.
+ */
 function ReadString()
 {
     var input = headtextinput.value;
@@ -960,6 +1322,9 @@ function ReadString()
     var strings = input.split(" ");
     var lines = [];
 
+    /**
+     * switch command in inputelement
+     */
     switch(strings[0])
     {
         case "help":
@@ -1054,8 +1419,14 @@ function ReadString()
     var h = lines.length * 30 + 30;
     h /= 2;
     second.style.height = h.toString() + "px";
+    /**
+     * double resolution of canvas
+     */
     second.height = h * 2;
 
+    /**
+     * write solution of command to second canvas
+     */
     var stx = second.getContext("2d");
 
     stx.fillStyle = "#CCCCCC";
