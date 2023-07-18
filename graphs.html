@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            table{
+                margin: 2%;
+                border-style: solid;
+                border-width: 2px;
+                border-color: black;
+                width: 1800px;
+                height: 900px;
+                background-color: black;
+            }
+            td{
+                margin: 2%;
+                width: 96%;
+                height: 96%;
+                border-style: solid;
+                border-width: 2px;
+                border-color: black;
+                background-color: #CCCCCC;
+            }
+            input{
+                width: 1000px;
+                height: 20px;
+            }
+            #canvas{
+                position: relative;
+                margin: 1%;
+                width: 1700px;
+                height: 850px;
+                border-style: solid;
+                border-width: 2px;
+                border-color: black;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td colspan="10">
+                    <form id="head" onsubmit="return false;">
+                        <input type="text" id="headtext" placeholder="enter 'help' and press [enter] for help">
+                        <input type="button" id="headbutton">
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="10">
+                    <canvas id="canvas" tabindex="1">
+
+                    </canvas>
+                </td>
+            </tr>
+        </table>
+        <script type="text/javascript" src="graphs.js"></script>
+    </body>
+</html>
